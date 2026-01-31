@@ -1,125 +1,121 @@
-import { useState } from "react";
 import type { StepId } from "../pages/Home";
 
-type ProductImage = "PURGE" | "GRIP" | "XBlackqout";
-
-const PRODUCT_IMAGES: Record<ProductImage, string> = {
-  PURGE: "/PURGE.png",
-  GRIP: "/GRIP.png",
-  XBlackqout: "/XBlackqout.png",
+type InterventionProduct = {
+  id: StepId;
+  name: string;
+  description: string;
+  group: string;
 };
 
-export function ProductBottleDisplay({ activeStepId: _activeStepId }: { activeStepId: StepId }) {
-  const [selectedProduct, setSelectedProduct] = useState<ProductImage>("PURGE");
+const INTERVENTION_PRODUCTS: InterventionProduct[] = [
+  {
+    id: "x-dirty",
+    name: "X-DIRTY DETAILS",
+    description: "Heavy Soil Pre-Treatment",
+    group: "Pre-Wash Interventions → Waypoint: Between GRIP & PURGE",
+  },
+  {
+    id: "x-extract",
+    name: "X-EXTRACTION",
+    description: "Organic Stain Removal",
+    group: "Pre-Wash Interventions → Waypoint: Between GRIP & PURGE",
+  },
+  {
+    id: "x-blaq",
+    name: "X-BLAQOUT",
+    description: "Adhesive Removal",
+    group: "Pre-Wash Interventions → Waypoint: Between GRIP & PURGE",
+  },
+  {
+    id: "x-fal",
+    name: "X-FALLOUT",
+    description: "Iron Decontamination",
+    group: "Post-Wash Decontamination → Waypoint: Between ASSAULT & CLARITY",
+  },
+  {
+    id: "x-field",
+    name: "X-FIELD WASH",
+    description: "Rinseless / Waterless",
+    group: "Field Wash Alternative → Bypasses GRIP + PURGE",
+  },
+  {
+    id: "z-fortify",
+    name: "Z-FORTIFY",
+    description: "Protective Barrier Treatment",
+    group: "Post-Protection Enhancement → After SHIELD (Step 08)",
+  },
+];
+
+export function ProductBottleDisplay({
+  activeStepId,
+  onProductClick,
+}: {
+  activeStepId: StepId;
+  onProductClick?: (id: StepId) => void;
+}) {
+  // Group products by their group label
+  const groupedProducts = INTERVENTION_PRODUCTS.reduce((acc, product) => {
+    if (!acc[product.group]) {
+      acc[product.group] = [];
+    }
+    acc[product.group].push(product);
+    return acc;
+  }, {} as Record<string, InterventionProduct[]>);
 
   return (
-    <div className="relative rounded-2xl border border-[#333333] bg-black/40 p-8 min-h-[600px] flex flex-col h-full">
-      {/* Glowing orange gear-like circular design background */}
-      <div className="absolute inset-0 overflow-hidden rounded-2xl">
-        <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2">
-          {/* Concentric circles with dashed/glowing effect */}
-          <div 
-            className="absolute inset-0 rounded-full border-4 border-[#FF6B35]/30" 
-            style={{
-              borderStyle: "dashed",
-              borderDasharray: "20 10",
-            } as React.CSSProperties} 
-          />
-          <div 
-            className="absolute inset-8 rounded-full border-2 border-[#FF6B35]/20" 
-            style={{
-              borderStyle: "dashed",
-              borderDasharray: "15 8",
-            } as React.CSSProperties} 
-          />
-          <div 
-            className="absolute inset-16 rounded-full border border-[#FF6B35]/10" 
-            style={{
-              borderStyle: "dashed",
-              borderDasharray: "10 5",
-            } as React.CSSProperties} 
-          />
-          {/* Gear teeth effect - more prominent */}
-          {Array.from({ length: 12 }).map((_, i) => {
-            const angle = (i * 360) / 12;
-            const rad = (angle * Math.PI) / 180;
-            const x = 250 + 200 * Math.cos(rad);
-            const y = 250 + 200 * Math.sin(rad);
-            return (
-              <div
-                key={i}
-                className="absolute h-10 w-2 rounded-full bg-[#FF6B35]/25"
-                style={{
-                  left: `${x}px`,
-                  top: `${y}px`,
-                  transform: `translate(-50%, -50%) rotate(${angle}deg)`,
-                  boxShadow: "0 0 10px rgba(255,107,53,0.4)",
-                }}
-              />
-            );
-          })}
+    <div className="relative rounded-2xl border border-[#333333] bg-black/40 p-8 min-h-[600px] flex flex-col h-full overflow-visible">
+      {/* Zone Label - Above content */}
+      <div className="absolute -top-3 left-6 z-30">
+        <div className="bg-black/80 border border-[#333333] px-4 py-1 rounded">
+          <div className="text-[10px] font-bold tracking-[0.2em] text-white/90 uppercase">
+            Intervention Zone™
+          </div>
         </div>
       </div>
 
-      {/* Product image positioned absolutely to match circle center */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
-        <div className="pointer-events-auto">
-          <img
-            src={PRODUCT_IMAGES[selectedProduct]}
-            alt={selectedProduct}
-            className="h-96 w-auto object-contain transition-all duration-300"
-            style={{
-              filter: "drop-shadow(0 0 30px rgba(255,107,53,0.6)) drop-shadow(0 0 60px rgba(255,107,53,0.3))",
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="relative z-10 flex flex-col flex-1">
-        {/* RIOT LINE™ heading - top left */}
-        <div className="text-base font-semibold tracking-[0.24em] text-white mb-2">
-          RIOT LINE™
-        </div>
-
-        {/* Spacer for product image area */}
-        <div className="flex-1 relative min-h-[400px]">
-        </div>
-
-        {/* X-DIRTY DETAILS section with clickable images */}
-        <div className="mt-auto pt-6">
-          <div className="text-center text-sm font-semibold tracking-wider text-white mb-2">
-            X-DIRTY DETAILS
+      {/* Intervention Products */}
+      <div className="relative z-10 flex flex-col gap-4 flex-1 overflow-y-auto">
+        {Object.entries(groupedProducts).map(([groupLabel, products]) => (
+          <div key={groupLabel} className="flex flex-col gap-3">
+            {/* Group Label */}
+            <div className="text-[8px] font-bold tracking-[0.12em] text-[#D4A574] uppercase text-center mb-1">
+              {groupLabel}
+            </div>
+            
+            {/* Products in this group */}
+            <div className="flex flex-wrap gap-2 justify-center">
+              {products.map((product) => {
+                const isActive = activeStepId === product.id;
+                return (
+                  <button
+                    key={product.id}
+                    onClick={() => onProductClick?.(product.id)}
+                    className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all duration-300 min-h-[90px] min-w-[110px] ${
+                      isActive
+                        ? "bg-gradient-to-br from-[#FF6B35]/30 to-[#FF6B35]/20 border-[#FF6B35] shadow-[0_0_20px_rgba(255,107,53,0.5)]"
+                        : "bg-black/50 border-[#333333] hover:border-[#FF6B35]/50 hover:bg-black/70"
+                    }`}
+                  >
+                    <div
+                      className={`text-base font-black mb-1 ${
+                        isActive ? "text-[#FF6B35]" : "text-white/80"
+                      }`}
+                    >
+                      {product.name}
+                    </div>
+                    <div
+                      className={`text-[9px] font-semibold tracking-[0.1em] text-center ${
+                        isActive ? "text-white/90" : "text-white/60"
+                      }`}
+                    >
+                      {product.description}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <div className="text-center text-xs tracking-wide text-white/70 mb-6">
-            RELEGION FREE PFREI
-          </div>
-          
-          {/* Three clickable bottles with orange glow effect */}
-          <div className="flex justify-center gap-4">
-            {(Object.keys(PRODUCT_IMAGES) as ProductImage[]).map((product) => (
-              <button
-                key={product}
-                onClick={() => setSelectedProduct(product)}
-                className={`relative transition-all duration-300 ${
-                  selectedProduct === product
-                    ? "scale-110"
-                    : "opacity-80 hover:opacity-100 hover:scale-105"
-                }`}
-                style={{
-                  filter: selectedProduct === product 
-                    ? "drop-shadow(0 0 15px rgba(255,107,53,0.8)) drop-shadow(0 0 30px rgba(255,107,53,0.4))"
-                    : "drop-shadow(0 0 8px rgba(255,107,53,0.3))",
-                }}
-              >
-                <img
-                  src={PRODUCT_IMAGES[product]}
-                  alt={product}
-                  className="h-32 w-auto object-contain cursor-pointer"
-                />
-              </button>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ export function StepArc({
 }) {
   // Virtual canvas for arc layout (increased height to show more of the image)
   const width = 1100;
-  const height = 360;
+  const height = 480;
 
   // Normalized arch parameters (0–1 space), tuned to follow the background curve
   const leftX = 0.08; // how far from left edge
@@ -46,7 +46,7 @@ export function StepArc({
       className="relative overflow-hidden rounded-xl border border-[#333333] bg-black/60"
       style={{
         height,
-        backgroundImage: "url(/Banner-Product.png)",
+        backgroundImage: "url(/Banner-Product2.png)",
         backgroundSize: "cover",
         backgroundPosition: "center top",
         backgroundRepeat: "no-repeat",
@@ -113,8 +113,15 @@ export function StepArc({
                 top: `${(p.y / height) * 100}%`,
               }}
             >
+              <span
+                className={`text-[10px] font-semibold tracking-[0.2em] uppercase mb-2 ${
+                  isActive ? "text-[#FF6B35]/90" : "text-white/60"
+                }`}
+              >
+                {p.step.category}
+              </span>
               <div
-                className={`mb-2 flex h-16 w-16 items-center justify-center rounded-full border-[2px] transition-all ${
+                className={`mb-4 flex h-32 w-32 flex-col items-center justify-center rounded-full border-[2px] transition-all ${
                   isActive
                     ? "border-[#FF6B35] bg-[#FF6B35]/25 shadow-[0_0_30px_rgba(255,107,53,0.8),0_0_45px_rgba(255,140,90,0.5)]"
                     : "border-[#FF6B35]/50 bg-black/70 shadow-[0_0_12px_rgba(255,107,53,0.4)]"
@@ -124,7 +131,14 @@ export function StepArc({
                 }}
               >
                 <span
-                  className={`text-xs font-black tracking-[0.24em] ${
+                  className={`text-[10px] font-bold tracking-[0.15em] uppercase leading-tight ${
+                    isActive ? "text-[#FF6B35]" : "text-white/70"
+                  }`}
+                >
+                  Step
+                </span>
+                <span
+                  className={`text-xl font-black tracking-[0.24em] leading-tight ${
                     isActive ? "text-[#FF6B35]" : "text-white/80"
                   }`}
                 >
@@ -132,7 +146,7 @@ export function StepArc({
                 </span>
               </div>
               <span
-                className={`text-[11px] font-semibold tracking-[0.24em] ${
+                className={`text-sm font-semibold tracking-[0.24em] ${
                   isActive ? "text-[#FF6B35]" : "text-white/75"
                 }`}
               >

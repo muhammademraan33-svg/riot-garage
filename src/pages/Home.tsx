@@ -1,189 +1,229 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { StepArc } from "../ui/StepArc";
 import { TopNav } from "../ui/TopNav";
 import { ProductBottleDisplay } from "../ui/ProductBottleDisplay";
 import { ProductDetailsPanel } from "../ui/ProductDetailsPanel";
 
 export type StepId =
+  | "grip"
   | "purge"
   | "assault"
   | "clarity"
   | "surface"
-  | "grip"
+  | "revive"
   | "lustre"
-  | "ops-center"
-  | "shield";
+  | "shield"
+  | "x-dirty"
+  | "x-extract"
+  | "x-blaq"
+  | "x-fal"
+  | "x-field"
+  | "z-fortify";
 
 export type Step = {
   id: StepId;
   number: string;
   label: string;
+  category: string;
   subtitle?: string;
   bullets?: string[];
 };
 
 export type StepData = {
   name: string;
-  description: string;
-  subtitle: string;
-  capabilities: string[];
+  productCode: string;
+  shortDescription: string;
+  whatItIs: string;
+  capabilities: string;
   strategicIntent: string;
-  deploymentProtocol: string[];
+  deploymentProtocol: string;
+  goodToKnow: string;
 };
 
 export const STEP_DATA: Record<StepId, StepData> = {
   purge: {
     name: "PURGE",
-    description: "Powerful Foaming Cyclol Pre-Wash",
-    subtitle: "MET FEENITER",
-    capabilities: [
-      "Thoroughly foams & breaks down dirt",
-      "Loosens contaminant safely",
-      "Resets the surface for the next stages",
-    ],
-    strategicIntent: "Trose cere Delauntitin or fout the mission ate 6 as60. Daunies tid onrraces.",
-    deploymentProtocol: [
-      "Snereachy Oatoo ese od Frarming PURGE",
-      "Fliecte peted force anig",
-      "Reet th carica",
-      "Pleccion o womcer wash",
-    ],
+    productCode: "RG-STEP02-PURGE",
+    shortDescription: "Loosens organic contamination.",
+    whatItIs: "Pre-clean and APC.",
+    capabilities: "Softens bug residue.",
+    strategicIntent: "Controlled decontamination.",
+    deploymentProtocol: "Dilute, apply, rinse.",
+    goodToKnow: "Excellent first strike.",
   },
   assault: {
     name: "ASSAULT",
-    description: "Aggressive Surface Treatment",
-    subtitle: "MET FEENITER",
-    capabilities: [
-      "Deep penetration and cleaning",
-      "Removes stubborn contaminants",
-      "Prepares surface for next phase",
-    ],
-    strategicIntent: "Advanced assault protocol for maximum surface preparation.",
-    deploymentProtocol: [
-      "Apply ASSAULT treatment",
-      "Allow proper dwell time",
-      "Rinse thoroughly",
-      "Proceed to next stage",
-    ],
+    productCode: "RG-STEP03-ASSAULT",
+    shortDescription: "High-lubricity shampoo.",
+    whatItIs: "Premium wash solution.",
+    capabilities: "Dense foam, strong lubrication.",
+    strategicIntent: "Predictable washing.",
+    deploymentProtocol: "Foam cannon, wash, rinse.",
+    goodToKnow: "pH-neutral.",
   },
   clarity: {
     name: "CLARITY",
-    description: "Crystal Clear Surface Enhancement",
-    subtitle: "MET FEENITER",
-    capabilities: [
-      "Enhances surface clarity",
-      "Removes water spots and streaks",
-      "Creates pristine finish",
-    ],
-    strategicIntent: "Achieve maximum clarity and visual perfection.",
-    deploymentProtocol: [
-      "Apply CLARITY solution",
-      "Work in sections",
-      "Buff to perfection",
-      "Inspect for clarity",
-    ],
+    productCode: "RG-STEP04-CLARITY",
+    shortDescription: "Streak-free glass clarity.",
+    whatItIs: "Fast-evaporating glass cleaner.",
+    capabilities: "Removes oils and films.",
+    strategicIntent: "Clear glass improves safety.",
+    deploymentProtocol: "Spray, wipe, buff.",
+    goodToKnow: "Use dedicated towels.",
   },
   surface: {
     name: "SURFACE",
-    description: "Premium Surface Preparation",
-    subtitle: "MET FEENITER",
-    capabilities: [
-      "Perfect surface preparation",
-      "Removes all imperfections",
-      "Creates ideal base layer",
-    ],
-    strategicIntent: "Prepare the perfect foundation for protection.",
-    deploymentProtocol: [
-      "Clean surface thoroughly",
-      "Apply SURFACE treatment",
-      "Allow to cure",
-      "Ready for protection",
-    ],
+    productCode: "RG-STEP05-SURFACE",
+    shortDescription: "Cleans interior plastics.",
+    whatItIs: "Interior surface cleaner.",
+    capabilities: "Removes oils and dust.",
+    strategicIntent: "Clean, not dressed.",
+    deploymentProtocol: "Spray on towel, wipe.",
+    goodToKnow: "This is a cleaner.",
   },
   grip: {
     name: "GRIP",
-    description: "Enhanced Adhesion Formula",
-    subtitle: "MET FEENITER",
-    capabilities: [
-      "Improves product adhesion",
-      "Creates strong bond",
-      "Enhances durability",
-    ],
-    strategicIntent: "Ensure maximum grip and adhesion for lasting protection.",
-    deploymentProtocol: [
-      "Apply GRIP formula",
-      "Work into surface",
-      "Allow bonding time",
-      "Verify adhesion",
-    ],
+    productCode: "RG-STEP01-GRIP",
+    shortDescription: "Resets tire and rubber surfaces.",
+    whatItIs: "A dedicated tire and rubber cleaner.",
+    capabilities: "Removes old dressings and oxidation.",
+    strategicIntent: "Establishes clean foundation.",
+    deploymentProtocol: "Apply to tire, agitate, rinse.",
+    goodToKnow: "For rubber only.",
   },
   lustre: {
     name: "LUSTRE",
-    description: "Ultimate Shine Enhancement",
-    subtitle: "MET FEENITER",
-    capabilities: [
-      "Creates deep, rich shine",
-      "Enhances color depth",
-      "Provides premium finish",
-    ],
-    strategicIntent: "Achieve the ultimate lustre and visual depth.",
-    deploymentProtocol: [
-      "Apply LUSTRE treatment",
-      "Polish to perfection",
-      "Inspect finish quality",
-      "Final shine application",
-    ],
+    productCode: "RG-STEP07-LUSTRE",
+    shortDescription: "Boosts gloss and slickness.",
+    whatItIs: "Spray wax enhancer.",
+    capabilities: "Enhances depth.",
+    strategicIntent: "Immediate visual payoff.",
+    deploymentProtocol: "Spray, spread, buff.",
+    goodToKnow: "Safe for coatings.",
   },
-  "ops-center": {
-    name: "OPS CENTER",
-    description: "Operational Control & Assessment",
-    subtitle: "MET FEENITER",
-    capabilities: [
-      "Comprehensive quality check",
-      "Surface assessment",
-      "Intervention zone activation",
-    ],
-    strategicIntent: "Central command for quality control and intervention decisions.",
-    deploymentProtocol: [
-      "Conduct full assessment",
-      "Evaluate surface condition",
-      "Determine intervention needs",
-      "Proceed with protocol",
-    ],
+  revive: {
+    name: "REVIVE",
+    productCode: "RG-STEP06-REVIVE",
+    shortDescription: "Protects interior surfaces.",
+    whatItIs: "Non-greasy protectant.",
+    capabilities: "UV protection.",
+    strategicIntent: "Extends material life.",
+    deploymentProtocol: "Apply, spread, wipe.",
+    goodToKnow: "Not for leather.",
   },
   shield: {
     name: "SHIELD",
-    description: "Ultimate Protection Layer",
-    subtitle: "MET FEENITER",
-    capabilities: [
-      "Long-lasting protection",
-      "Water repellency",
-      "UV and environmental shield",
-    ],
-    strategicIntent: "Final protective layer for maximum durability and defense.",
-    deploymentProtocol: [
-      "Apply SHIELD protection",
-      "Ensure even coverage",
-      "Allow proper curing",
-      "Final inspection complete",
-    ],
+    productCode: "RG-STEP08-SHIELD",
+    shortDescription: "Hydrophobic protection.",
+    whatItIs: "Spray-applied protective.",
+    capabilities: "Water repellency.",
+    strategicIntent: "Accessible protection.",
+    deploymentProtocol: "Apply, spread, buff.",
+    goodToKnow: "Maintenance topper.",
+  },
+  "x-dirty": {
+    name: "X-DIRTY DETAILS",
+    productCode: "RG-X-DIRTY",
+    shortDescription: "Heavy soil pre-treatment.",
+    whatItIs: "Concentrated pre-soak for heavily soiled vehicles.",
+    capabilities: "Breaks down thick mud, road grime, heavy organic contamination.",
+    strategicIntent: "Prepare heavily soiled vehicles for safe washing.",
+    deploymentProtocol: "Apply to dry surface, dwell 3-5 min, rinse thoroughly.",
+    goodToKnow: "Use before PURGE on extreme dirt.",
+  },
+  "x-extract": {
+    name: "X-EXTRACTION",
+    productCode: "RG-X-EXTRACT",
+    shortDescription: "Organic stain removal.",
+    whatItIs: "Bio-enzymatic stain remover.",
+    capabilities: "Eliminates organic stains, odors, and residues.",
+    strategicIntent: "Remove biological contamination from fabrics and surfaces.",
+    deploymentProtocol: "Apply directly, agitate gently, extract or rinse.",
+    goodToKnow: "Safe for interior fabrics and carpets.",
+  },
+  "x-blaq": {
+    name: "X-BLAQOUT",
+    productCode: "RG-X-BLAQ",
+    shortDescription: "Adhesive and tar removal.",
+    whatItIs: "Solvent-based adhesive remover.",
+    capabilities: "Dissolves tar, sap, stickers, adhesive residue.",
+    strategicIntent: "Remove stubborn bonded contaminants without damage.",
+    deploymentProtocol: "Apply to contamination, dwell briefly, wipe clean.",
+    goodToKnow: "Test on inconspicuous area first.",
+  },
+  "x-fal": {
+    name: "X-FALLOUT",
+    productCode: "RG-X-FAL",
+    shortDescription: "Iron decontamination.",
+    whatItIs: "pH-balanced iron remover.",
+    capabilities: "Dissolves embedded ferrous particles from paint and wheels.",
+    strategicIntent: "Remove invisible iron contamination before protection.",
+    deploymentProtocol: "Spray on cool surface, watch color change, rinse thoroughly.",
+    goodToKnow: "Critical before wax or coating application.",
+  },
+  "x-field": {
+    name: "X-FIELD WASH",
+    productCode: "RG-X-FIELD",
+    shortDescription: "Rinseless wash concentrate.",
+    whatItIs: "Waterless/rinseless wash solution.",
+    capabilities: "Cleans, lubricates, and protects in one step without water.",
+    strategicIntent: "Enable washing when water access is limited.",
+    deploymentProtocol: "Dilute per instructions, spray and wipe with quality towels.",
+    goodToKnow: "Replaces GRIP and PURGE steps in field conditions.",
+  },
+  "z-fortify": {
+    name: "Z-FORTIFY",
+    productCode: "RG-Z-FORTIFY",
+    shortDescription: "Advanced protective barrier treatment.",
+    whatItIs: "High-performance ceramic coating booster.",
+    capabilities: "Enhanced durability, extreme hydrophobic properties, UV resistance.",
+    strategicIntent: "Maximum protection for demanding conditions.",
+    deploymentProtocol: "Apply after SHIELD, spread evenly, allow to cure.",
+    goodToKnow: "Optional enhancement after Step 08.",
   },
 };
 
 export const STEPS: Step[] = [
-  { id: "purge", number: "01", label: "PURGE" },
-  { id: "assault", number: "02", label: "ASSAULT" },
-  { id: "clarity", number: "03", label: "CLARITY" },
-  { id: "surface", number: "04", label: "SURFACE" },
-  { id: "grip", number: "05", label: "GRIP" },
-  { id: "lustre", number: "06", label: "LUSTRE" },
-  { id: "ops-center", number: "07", label: "OPS CENTER" },
-  { id: "shield", number: "08", label: "SHIELD" },
+  { id: "grip", number: "01", label: "GRIP", category: "TIRE & RUBBER" },
+  { id: "purge", number: "02", label: "PURGE", category: "PRE-WASH" },
+  { id: "assault", number: "03", label: "ASSAULT", category: "CONTACT WASH" },
+  { id: "clarity", number: "04", label: "CLARITY", category: "GLASS" },
+  { id: "surface", number: "05", label: "SURFACE", category: "INTERIOR CLEAN" },
+  { id: "revive", number: "06", label: "REVIVE", category: "INTERIOR SHIELD" },
+  { id: "lustre", number: "07", label: "LUSTRE", category: "GLOSS BOOST" },
+  { id: "shield", number: "08", label: "SHIELD", category: "PROTECTION" },
 ];
 
 export function Home() {
-  // Default active product: PURGE (01)
-  const [activeStepId, setActiveStepId] = useState<StepId>("purge");
+  // Default active product: GRIP (01)
+  const [activeStepId, setActiveStepId] = useState<StepId>("grip");
+  
+  // Check if current selection is an intervention product
+  const isInterventionProduct = [
+    "x-dirty",
+    "x-extract",
+    "x-blaq",
+    "x-fal",
+    "x-field",
+    "z-fortify",
+  ].includes(activeStepId);
+  
+  // Check if it's a pre-wash intervention (should appear between step 1 and 2)
+  const isPreWashIntervention = ["x-dirty", "x-extract", "x-blaq"].includes(activeStepId);
+  
+  // Check if it's X-Fallout (should appear between step 3 and 4)
+  const isXFallout = activeStepId === "x-fal";
+  
+  // Check if it's X-Field Wash (should replace steps 1 and 2)
+  const isXFieldWash = activeStepId === "x-field";
+  
+  // Check if it's Z-Fortify (should appear after step 8)
+  const isZFortify = activeStepId === "z-fortify";
+  
+  // Get the product name to display in step navigation
+  const activeProductName = isInterventionProduct
+    ? STEP_DATA[activeStepId]?.name || ""
+    : null;
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white relative">
@@ -200,32 +240,129 @@ export function Home() {
           />
         </div>
 
+        {/* Heading Banner */}
+        <div className="mb-6 rounded-lg bg-black/40 border border-[#333333] px-8 py-6 flex items-center justify-between">
+          <div className="text-2xl font-black tracking-[0.16em] text-white uppercase">
+            The Riot Line™
+          </div>
+          <div className="text-sm font-medium italic tracking-[0.1em] text-white/75 uppercase">
+            Core 8-Step Workflow
+          </div>
+        </div>
+
         {/* Product menu links - 8 products styled as arrow tabs */}
-        <div className="mb-8 flex items-center gap-4 overflow-x-auto pb-3">
+        <div className="mb-8 flex items-center gap-4 overflow-x-auto pb-6 py-4">
+          {/* Show X-Field Wash at the start if selected */}
+          {isXFieldWash && activeProductName && (
+            <button
+              onClick={() => setActiveStepId(activeStepId)}
+              type="button"
+              className="flex flex-shrink-0 items-stretch focus:outline-none"
+            >
+              <span
+                className="relative z-10 flex items-center rounded-l-full px-6 py-4 text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
+              >
+                {activeProductName}
+              </span>
+              {/* Arrow tip */}
+              <span
+                className="relative -ml-px w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
+              />
+            </button>
+          )}
+          
           {STEPS.map((step) => {
             const active = activeStepId === step.id;
+            const isStep01 = step.id === "grip";
+            const isStep02 = step.id === "purge";
+            const isStep03 = step.id === "assault";
+            const isStep08 = step.id === "shield";
+            
+            // Hide steps 1 and 2 when X-Field Wash is selected
+            if (isXFieldWash && (isStep01 || isStep02)) {
+              return null;
+            }
+            
             return (
-              <button
-                key={step.id}
-                onClick={() => setActiveStepId(step.id)}
-                type="button"
-                className="flex flex-shrink-0 items-stretch focus:outline-none"
-              >
-                <span
-                  className={`relative z-10 flex items-center rounded-l-full px-4 py-2 text-[11px] font-semibold tracking-[0.24em] uppercase ${
-                    active
-                      ? "bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
-                      : "bg-black/50 text-white/75 border border-[#333333] border-r-0 hover:border-[#FF6B35]/50 hover:text-[#FF6B35]"
-                  }`}
+              <Fragment key={step.id}>
+                <button
+                  onClick={() => setActiveStepId(step.id)}
+                  type="button"
+                  className="flex flex-shrink-0 items-stretch focus:outline-none"
                 >
-                  <span className="mr-1">{step.number}</span>
-                  {step.label}
-                </span>
-                {/* Arrow tip */}
-                <span
-                  className={`relative -ml-px w-4 ${active ? "bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35]" : "bg-black/50 border-t border-b border-r border-[#333333]"} [clip-path:polygon(0_0,100%_50%,0_100%)]`}
-                />
-              </button>
+                  <span
+                    className={`relative z-10 flex items-center rounded-l-full px-6 py-4 text-[11px] font-semibold tracking-[0.24em] uppercase ${
+                      active
+                        ? "bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
+                        : "bg-black/50 text-white/75 border border-[#333333] border-r-0 hover:border-[#FF6B35]/50 hover:text-[#FF6B35]"
+                    }`}
+                  >
+                    <span className="mr-1">{step.number}</span>
+                    {step.label}
+                  </span>
+                  {/* Arrow tip */}
+                  <span
+                    className={`relative -ml-px w-4 ${active ? "bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35]" : "bg-black/50 border-t border-b border-r border-[#333333]"} [clip-path:polygon(0_0,100%_50%,0_100%)]`}
+                  />
+                </button>
+                
+                {/* Insert intervention product button between step 01 and step 02 */}
+                {isStep01 && isPreWashIntervention && activeProductName && (
+                  <button
+                    onClick={() => setActiveStepId(activeStepId)}
+                    type="button"
+                    className="flex flex-shrink-0 items-stretch focus:outline-none"
+                  >
+                    <span
+                      className="relative z-10 flex items-center rounded-l-full px-6 py-4 text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
+                    >
+                      {activeProductName}
+                    </span>
+                    {/* Arrow tip */}
+                    <span
+                      className="relative -ml-px w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
+                    />
+                  </button>
+                )}
+                
+                {/* Insert X-Fallout button between step 03 and step 04 */}
+                {isStep03 && isXFallout && activeProductName && (
+                  <button
+                    onClick={() => setActiveStepId(activeStepId)}
+                    type="button"
+                    className="flex flex-shrink-0 items-stretch focus:outline-none"
+                  >
+                    <span
+                      className="relative z-10 flex items-center rounded-l-full px-6 py-4 text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
+                    >
+                      {activeProductName}
+                    </span>
+                    {/* Arrow tip */}
+                    <span
+                      className="relative -ml-px w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
+                    />
+                  </button>
+                )}
+                
+                {/* Insert Z-Fortify button after step 08 */}
+                {isStep08 && isZFortify && activeProductName && (
+                  <button
+                    onClick={() => setActiveStepId(activeStepId)}
+                    type="button"
+                    className="flex flex-shrink-0 items-stretch focus:outline-none"
+                  >
+                    <span
+                      className="relative z-10 flex items-center rounded-l-full px-6 py-4 text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
+                    >
+                      {activeProductName}
+                    </span>
+                    {/* Arrow tip */}
+                    <span
+                      className="relative -ml-px w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
+                    />
+                  </button>
+                )}
+              </Fragment>
             );
           })}
         </div>
@@ -234,12 +371,18 @@ export function Home() {
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-10 gap-8 items-stretch">
           {/* Left Section: Product Bottle Display - 30% width */}
           <div className="lg:col-span-3">
-            <ProductBottleDisplay activeStepId={activeStepId} />
+            <ProductBottleDisplay 
+              activeStepId={activeStepId}
+              onProductClick={(id) => setActiveStepId(id)}
+            />
           </div>
 
           {/* Right Section: Product Details - 70% width */}
-          <div className="lg:col-span-7">
-            <ProductDetailsPanel activeStepId={activeStepId} />
+          <div className="lg:col-span-7 overflow-visible">
+            <ProductDetailsPanel 
+              activeStepId={activeStepId} 
+              onStepClick={(id) => setActiveStepId(id)}
+            />
           </div>
         </div>
       </main>
