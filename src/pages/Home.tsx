@@ -401,19 +401,25 @@ export function Home() {
         </div>
 
         {/* Two sections: Left (Product Display) and Right (Product Details) */}
+        {/* When intervention product is selected: Hide Intervention Zone, show only Product Details */}
         {/* Mobile: Stacked (Product Details first, then Intervention Zone below) */}
         {/* Larger screens: Side by side (Intervention Zone left 30%, Product Details right 70%) */}
         <div className="mt-4 sm:mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-10 gap-3 sm:gap-4 md:gap-6 lg:gap-8 items-stretch">
-          {/* Left Section: Product Bottle Display - 30% width (appears second on mobile, first on large screens) */}
-          <div className="lg:col-span-3 order-2 lg:order-1">
-            <ProductBottleDisplay 
-              activeStepId={activeStepId}
-              onProductClick={handleStepClick}
-            />
-          </div>
+          {/* Left Section: Product Bottle Display - 30% width (hidden when intervention product is selected) */}
+          {!isInterventionProduct && (
+            <div className="lg:col-span-3 order-2 lg:order-1">
+              <ProductBottleDisplay 
+                activeStepId={activeStepId}
+                onProductClick={handleStepClick}
+              />
+            </div>
+          )}
 
-          {/* Right Section: Product Details - 70% width (appears first on mobile, second on large screens) */}
-          <div ref={productInfoZoneRef} className="lg:col-span-7 overflow-visible order-1 lg:order-2">
+          {/* Right Section: Product Details - 70% width (full width when intervention selected, 70% otherwise) */}
+          <div 
+            ref={productInfoZoneRef} 
+            className={`overflow-visible order-1 ${isInterventionProduct ? 'lg:col-span-10' : 'lg:col-span-7 lg:order-2'}`}
+          >
             <ProductDetailsPanel 
               activeStepId={activeStepId} 
               onStepClick={handleStepClick}
