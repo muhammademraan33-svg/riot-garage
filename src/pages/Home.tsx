@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useRef } from "react";
 import { StepArc } from "../ui/StepArc";
 import { TopNav } from "../ui/TopNav";
 import { ProductBottleDisplay } from "../ui/ProductBottleDisplay";
@@ -198,6 +198,9 @@ export function Home() {
   // Default active product: GRIP (01)
   const [activeStepId, setActiveStepId] = useState<StepId>("grip");
   
+  // Ref for Product Information Zone to scroll into view
+  const productInfoZoneRef = useRef<HTMLDivElement>(null);
+  
   // Check if current selection is an intervention product
   const isInterventionProduct = [
     "x-dirty",
@@ -224,6 +227,35 @@ export function Home() {
   const activeProductName = isInterventionProduct
     ? STEP_DATA[activeStepId]?.name || ""
     : null;
+  
+  // Determine intervention product position for StepArc
+  const interventionProductForArc = isInterventionProduct
+    ? (() => {
+        if (isPreWashIntervention) {
+          return { id: activeStepId, name: activeProductName || "", position: 'between-1-2' as const };
+        } else if (isXFallout) {
+          return { id: activeStepId, name: activeProductName || "", position: 'between-3-4' as const };
+        } else if (isXFieldWash) {
+          return { id: activeStepId, name: activeProductName || "", position: 'replaces-1-2' as const };
+        } else if (isZFortify) {
+          return { id: activeStepId, name: activeProductName || "", position: 'after-8' as const };
+        }
+        return null;
+      })()
+    : null;
+  
+  // Handle step click with scroll to Product Information Zone
+  const handleStepClick = (id: StepId) => {
+    setActiveStepId(id);
+    // Scroll to Product Information Zone after a short delay to allow state update
+    setTimeout(() => {
+      productInfoZoneRef.current?.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start',
+        inline: 'nearest'
+      });
+    }, 100);
+  };
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white relative">
@@ -236,7 +268,8 @@ export function Home() {
           <StepArc
             steps={STEPS}
             activeId={activeStepId}
-            onStepClick={(id) => setActiveStepId(id)}
+            onStepClick={handleStepClick}
+            interventionProduct={interventionProductForArc}
           />
         </div>
 
@@ -255,7 +288,7 @@ export function Home() {
           {/* Show X-Field Wash at the start if selected */}
           {isXFieldWash && activeProductName && (
             <button
-              onClick={() => setActiveStepId(activeStepId)}
+              onClick={() => handleStepClick(activeStepId)}
               type="button"
               className="flex flex-shrink-0 items-stretch focus:outline-none"
             >
@@ -286,7 +319,7 @@ export function Home() {
             return (
               <Fragment key={step.id}>
                 <button
-                  onClick={() => setActiveStepId(step.id)}
+                  onClick={() => handleStepClick(step.id)}
                   type="button"
                   className="flex flex-shrink-0 items-stretch focus:outline-none"
                 >
@@ -309,7 +342,7 @@ export function Home() {
                 {/* Insert intervention product button between step 01 and step 02 */}
                 {isStep01 && isPreWashIntervention && activeProductName && (
                   <button
-                    onClick={() => setActiveStepId(activeStepId)}
+                    onClick={() => handleStepClick(activeStepId)}
                     type="button"
                     className="flex flex-shrink-0 items-stretch focus:outline-none"
                   >
@@ -328,7 +361,7 @@ export function Home() {
                 {/* Insert X-Fallout button between step 03 and step 04 */}
                 {isStep03 && isXFallout && activeProductName && (
                   <button
-                    onClick={() => setActiveStepId(activeStepId)}
+                    onClick={() => handleStepClick(activeStepId)}
                     type="button"
                     className="flex flex-shrink-0 items-stretch focus:outline-none"
                   >
@@ -347,7 +380,7 @@ export function Home() {
                 {/* Insert Z-Fortify button after step 08 */}
                 {isStep08 && isZFortify && activeProductName && (
                   <button
-                    onClick={() => setActiveStepId(activeStepId)}
+                    onClick={() => handleStepClick(activeStepId)}
                     type="button"
                     className="flex flex-shrink-0 items-stretch focus:outline-none"
                   >
@@ -375,15 +408,15 @@ export function Home() {
           <div className="lg:col-span-3 order-2 lg:order-1">
             <ProductBottleDisplay 
               activeStepId={activeStepId}
-              onProductClick={(id) => setActiveStepId(id)}
+              onProductClick={handleStepClick}
             />
           </div>
 
           {/* Right Section: Product Details - 70% width (appears first on mobile, second on large screens) */}
-          <div className="lg:col-span-7 overflow-visible order-1 lg:order-2">
+          <div ref={productInfoZoneRef} className="lg:col-span-7 overflow-visible order-1 lg:order-2">
             <ProductDetailsPanel 
               activeStepId={activeStepId} 
-              onStepClick={(id) => setActiveStepId(id)}
+              onStepClick={handleStepClick}
             />
           </div>
         </div>
