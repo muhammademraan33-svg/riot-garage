@@ -316,45 +316,45 @@ export function ProductDetailsPanel({
       </div>
 
       {/* Product Bottle Display - Bottom Right, aligned with wheel - Visible on all screens, resized for mobile */}
-      <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 right-2 sm:right-3 md:right-4 z-20 flex items-center">
-        <div className="relative w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[180px] md:h-[180px] lg:w-[200px] lg:h-[200px]" style={{ marginRight: '0px' }}>
+      <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 right-2 sm:right-3 md:right-4 z-20 flex items-center max-w-[calc(100%-1rem)] sm:max-w-none">
+        <div className="relative w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] md:w-[180px] md:h-[180px] lg:w-[200px] lg:h-[200px]" style={{ marginRight: '0px' }}>
           {/* Glowing orange gear-like circular design background */}
-          <div className="absolute inset-0 overflow-visible">
+          <div className="absolute inset-0 overflow-hidden">
             <div className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2">
               {/* Concentric circles with dashed/glowing effect */}
               <div 
-                className="absolute inset-0 rounded-full border-3 border-[#FF6B35]/30" 
+                className="absolute inset-0 rounded-full border-2 sm:border-3 border-[#FF6B35]/30" 
                 style={{
                   borderStyle: "dashed",
-                  borderDasharray: "15 8",
+                  borderDasharray: (width < 768 ? "8 4" : width < 1024 ? "12 6" : "15 8"),
                 } as React.CSSProperties} 
               />
               <div 
-                className="absolute inset-6 rounded-full border-2 border-[#FF6B35]/20" 
+                className="absolute inset-3 sm:inset-4 md:inset-6 rounded-full border sm:border-1.5 md:border-2 border-[#FF6B35]/20" 
                 style={{
                   borderStyle: "dashed",
-                  borderDasharray: "12 6",
+                  borderDasharray: (width < 768 ? "6 3" : width < 1024 ? "9 4" : "12 6"),
                 } as React.CSSProperties} 
               />
               <div 
-                className="absolute inset-12 rounded-full border border-[#FF6B35]/10" 
+                className="absolute inset-6 sm:inset-8 md:inset-12 rounded-full border border-[#FF6B35]/10" 
                 style={{
                   borderStyle: "dashed",
-                  borderDasharray: "8 4",
+                  borderDasharray: (width < 768 ? "4 2" : width < 1024 ? "6 3" : "8 4"),
                 } as React.CSSProperties} 
               />
-              {/* Gear teeth effect */}
+              {/* Gear teeth effect - smaller on mobile */}
               {Array.from({ length: 12 }).map((_, i) => {
                 const angle = (i * 360) / 12;
                 const rad = (angle * Math.PI) / 180;
-                const containerSize = typeof window !== 'undefined' && window.innerWidth < 1024 ? 90 : 100;
+                const containerSize = width < 768 ? 40 : width < 1024 ? 60 : 100;
                 const radius = containerSize;
                 const x = containerSize + radius * Math.cos(rad);
                 const y = containerSize + radius * Math.sin(rad);
                 return (
                   <div
                     key={i}
-                    className="absolute h-6 w-1 md:h-7 md:w-1.5 lg:h-8 lg:w-1.5 rounded-full bg-[#FF6B35]/25"
+                    className="absolute h-3 w-0.5 sm:h-4 sm:w-1 md:h-6 md:w-1 lg:h-8 lg:w-1.5 rounded-full bg-[#FF6B35]/25"
                     style={{
                       left: `${x}px`,
                       top: `${y}px`,
@@ -372,7 +372,7 @@ export function ProductDetailsPanel({
             <img
               src={STEP_BOTTLE_IMAGES[activeStepId]}
               alt={stepData.name}
-              className="h-20 sm:h-24 md:h-40 lg:h-48 w-auto object-contain transition-all duration-300"
+              className="h-16 sm:h-24 md:h-40 lg:h-48 w-auto object-contain transition-all duration-300"
               style={{
                 filter: "drop-shadow(0 0 20px rgba(255,107,53,0.6)) drop-shadow(0 0 40px rgba(255,107,53,0.3))",
               }}
