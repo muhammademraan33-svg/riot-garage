@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import type { Step, StepId } from "../pages/Home";
 
 export function StepArc({
@@ -9,13 +10,31 @@ export function StepArc({
   activeId: StepId;
   onStepClick?: (id: StepId) => void;
 }) {
-  // Virtual canvas for arc layout (increased height to show more of the image)
-  const width = 1100;
-  const height = 480;
+  // Responsive sizing
+  const [dimensions, setDimensions] = useState({ width: 1100, height: 480 });
+  
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (window.innerWidth < 768) {
+        setDimensions({ width: 400, height: 280 });
+      } else if (window.innerWidth < 1024) {
+        setDimensions({ width: 800, height: 360 });
+      } else {
+        setDimensions({ width: 1100, height: 480 });
+      }
+    };
+    
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
+  
+  const { width, height } = dimensions;
 
   // Normalized arch parameters (0–1 space), tuned to follow the background curve
-  const leftX = 0.08; // how far from left edge
-  const rightX = 0.92; // how far from right edge
+  // More spacing on mobile to prevent circles from being too close
+  const leftX = width < 768 ? 0.12 : 0.08; // more space from left on mobile
+  const rightX = width < 768 ? 0.88 : 0.92; // more space from right on mobile
   const baseY = 0.80; // baseline slightly lower to hug the glow
   const curveHeight = 0.36; // even higher center for more pronounced curve
 
@@ -45,7 +64,7 @@ export function StepArc({
     <div
       className="relative overflow-hidden rounded-xl border border-[#333333] bg-black/60"
       style={{
-        height,
+        height: `${height}px`,
         backgroundImage: "url(/Banner-Product2.png)",
         backgroundSize: "cover",
         backgroundPosition: "center top",
@@ -67,7 +86,7 @@ export function StepArc({
           d={arcPath}
           fill="none"
           stroke="rgba(255,107,53,0.4)"
-          strokeWidth={16}
+          strokeWidth={width < 768 ? 8 : width < 1024 ? 12 : 16}
           strokeLinecap="round"
           style={{ filter: 'blur(6px)' }}
         />
@@ -76,7 +95,7 @@ export function StepArc({
           d={arcPath}
           fill="none"
           stroke="rgba(255,140,90,0.5)"
-          strokeWidth={10}
+          strokeWidth={width < 768 ? 5 : width < 1024 ? 7 : 10}
           strokeLinecap="round"
           style={{ filter: 'blur(3px)' }}
         />
@@ -85,7 +104,7 @@ export function StepArc({
           d={arcPath}
           fill="none"
           stroke="rgba(255,107,53,0.7)"
-          strokeWidth={5}
+          strokeWidth={width < 768 ? 2.5 : width < 1024 ? 3.5 : 5}
           strokeLinecap="round"
         />
         {/* Center line */}
@@ -93,7 +112,7 @@ export function StepArc({
           d={arcPath}
           fill="none"
           stroke="rgba(255,184,107,0.8)"
-          strokeWidth={3}
+          strokeWidth={width < 768 ? 1.5 : width < 1024 ? 2 : 3}
           strokeLinecap="round"
         />
       </svg>
@@ -114,14 +133,14 @@ export function StepArc({
               }}
             >
               <span
-                className={`text-[10px] font-semibold tracking-[0.2em] uppercase mb-2 ${
+                className={`text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] font-semibold tracking-[0.2em] uppercase mb-1 sm:mb-1.5 md:mb-2 ${
                   isActive ? "text-[#FF6B35]/90" : "text-white/60"
                 }`}
               >
                 {p.step.category}
               </span>
               <div
-                className={`mb-4 flex h-32 w-32 flex-col items-center justify-center rounded-full border-[2px] transition-all ${
+                className={`mb-2 sm:mb-3 md:mb-4 flex h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-32 lg:w-32 flex-col items-center justify-center rounded-full border-[2px] transition-all ${
                   isActive
                     ? "border-[#FF6B35] bg-[#FF6B35]/25 shadow-[0_0_30px_rgba(255,107,53,0.8),0_0_45px_rgba(255,140,90,0.5)]"
                     : "border-[#FF6B35]/50 bg-black/70 shadow-[0_0_12px_rgba(255,107,53,0.4)]"
@@ -131,14 +150,14 @@ export function StepArc({
                 }}
               >
                 <span
-                  className={`text-[10px] font-bold tracking-[0.15em] uppercase leading-tight ${
+                  className={`text-[5px] sm:text-[6px] md:text-[7px] lg:text-[10px] font-bold tracking-[0.15em] uppercase leading-tight ${
                     isActive ? "text-[#FF6B35]" : "text-white/70"
                   }`}
                 >
                   Step
                 </span>
                 <span
-                  className={`text-xl font-black tracking-[0.24em] leading-tight ${
+                  className={`text-[10px] sm:text-xs md:text-sm lg:text-xl font-black tracking-[0.24em] leading-tight ${
                     isActive ? "text-[#FF6B35]" : "text-white/80"
                   }`}
                 >
@@ -146,7 +165,7 @@ export function StepArc({
                 </span>
               </div>
               <span
-                className={`text-sm font-semibold tracking-[0.24em] ${
+                className={`text-[8px] sm:text-[9px] md:text-xs lg:text-sm font-semibold tracking-[0.24em] ${
                   isActive ? "text-[#FF6B35]" : "text-white/75"
                 }`}
               >

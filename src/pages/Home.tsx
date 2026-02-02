@@ -230,7 +230,7 @@ export function Home() {
       <TopNav />
 
       {/* Add padding-top to account for larger overlapping logo */}
-      <main className="mx-auto max-w-[1920px] px-6 pt-20 pb-10 relative z-0">
+      <main className="mx-auto max-w-[1920px] px-3 sm:px-4 md:px-6 pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8 md:pb-10 relative z-0">
         {/* Step Arc Progress Bar with Banner-Product background */}
         <div className="mb-10">
           <StepArc
@@ -241,17 +241,17 @@ export function Home() {
         </div>
 
         {/* Heading Banner */}
-        <div className="mb-6 rounded-lg bg-black/40 border border-[#333333] px-8 py-6 flex items-center justify-between">
-          <div className="text-2xl font-black tracking-[0.16em] text-white uppercase">
+        <div className="mb-4 sm:mb-5 md:mb-6 rounded-lg bg-black/40 border border-[#333333] px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+          <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-black tracking-[0.16em] text-white uppercase">
             The Riot Line™
           </div>
-          <div className="text-sm font-medium italic tracking-[0.1em] text-white/75 uppercase">
+          <div className="text-xs sm:text-sm font-medium italic tracking-[0.1em] text-white/75 uppercase">
             Core 8-Step Workflow
           </div>
         </div>
 
         {/* Product menu links - 8 products styled as arrow tabs */}
-        <div className="mb-8 flex items-center gap-4 overflow-x-auto pb-6 py-4">
+        <div className="mb-4 sm:mb-6 md:mb-8 flex items-center gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-4 sm:pb-5 md:pb-6 py-2 sm:py-3 md:py-4">
           {/* Show X-Field Wash at the start if selected */}
           {isXFieldWash && activeProductName && (
             <button
@@ -291,18 +291,18 @@ export function Home() {
                   className="flex flex-shrink-0 items-stretch focus:outline-none"
                 >
                   <span
-                    className={`relative z-10 flex items-center rounded-l-full px-6 py-4 text-[11px] font-semibold tracking-[0.24em] uppercase ${
+                    className={`relative z-10 flex items-center rounded-l-full px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-4 text-[9px] sm:text-[10px] md:text-[11px] font-semibold tracking-[0.24em] uppercase ${
                       active
                         ? "bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
                         : "bg-black/50 text-white/75 border border-[#333333] border-r-0 hover:border-[#FF6B35]/50 hover:text-[#FF6B35]"
                     }`}
                   >
-                    <span className="mr-1">{step.number}</span>
+                    <span className="mr-0.5 sm:mr-1">{step.number}</span>
                     {step.label}
                   </span>
                   {/* Arrow tip */}
                   <span
-                    className={`relative -ml-px w-4 ${active ? "bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35]" : "bg-black/50 border-t border-b border-r border-[#333333]"} [clip-path:polygon(0_0,100%_50%,0_100%)]`}
+                    className={`relative -ml-px w-2 sm:w-3 md:w-4 ${active ? "bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35]" : "bg-black/50 border-t border-b border-r border-[#333333]"} [clip-path:polygon(0_0,100%_50%,0_100%)]`}
                   />
                 </button>
                 
@@ -314,13 +314,13 @@ export function Home() {
                     className="flex flex-shrink-0 items-stretch focus:outline-none"
                   >
                     <span
-                      className="relative z-10 flex items-center rounded-l-full px-6 py-4 text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
+                      className="relative z-10 flex items-center rounded-l-full px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-4 text-[9px] sm:text-[10px] md:text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
                     >
                       {activeProductName}
                     </span>
                     {/* Arrow tip */}
                     <span
-                      className="relative -ml-px w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
+                      className="relative -ml-px w-2 sm:w-3 md:w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
                     />
                   </button>
                 )}
@@ -333,13 +333,13 @@ export function Home() {
                     className="flex flex-shrink-0 items-stretch focus:outline-none"
                   >
                     <span
-                      className="relative z-10 flex items-center rounded-l-full px-6 py-4 text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
+                      className="relative z-10 flex items-center rounded-l-full px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-4 text-[9px] sm:text-[10px] md:text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
                     >
                       {activeProductName}
                     </span>
                     {/* Arrow tip */}
                     <span
-                      className="relative -ml-px w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
+                      className="relative -ml-px w-2 sm:w-3 md:w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
                     />
                   </button>
                 )}
@@ -352,13 +352,13 @@ export function Home() {
                     className="flex flex-shrink-0 items-stretch focus:outline-none"
                   >
                     <span
-                      className="relative z-10 flex items-center rounded-l-full px-6 py-4 text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
+                      className="relative z-10 flex items-center rounded-l-full px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-4 text-[9px] sm:text-[10px] md:text-[11px] font-semibold tracking-[0.24em] uppercase bg-[#FF6B35]/25 text-[#FF6B35] border border-[#FF6B35] border-r-0"
                     >
                       {activeProductName}
                     </span>
                     {/* Arrow tip */}
                     <span
-                      className="relative -ml-px w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
+                      className="relative -ml-px w-2 sm:w-3 md:w-4 bg-[#FF6B35]/25 border-t border-b border-r border-[#FF6B35] [clip-path:polygon(0_0,100%_50%,0_100%)]"
                     />
                   </button>
                 )}
@@ -368,17 +368,19 @@ export function Home() {
         </div>
 
         {/* Two sections: Left (Product Display) and Right (Product Details) */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-10 gap-8 items-stretch">
-          {/* Left Section: Product Bottle Display - 30% width */}
-          <div className="lg:col-span-3">
+        {/* Mobile: Stacked (Product Details first, then Intervention Zone below) */}
+        {/* Larger screens: Side by side (Intervention Zone left 30%, Product Details right 70%) */}
+        <div className="mt-4 sm:mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-10 gap-3 sm:gap-4 md:gap-6 lg:gap-8 items-stretch">
+          {/* Left Section: Product Bottle Display - 30% width (appears second on mobile, first on large screens) */}
+          <div className="lg:col-span-3 order-2 lg:order-1">
             <ProductBottleDisplay 
               activeStepId={activeStepId}
               onProductClick={(id) => setActiveStepId(id)}
             />
           </div>
 
-          {/* Right Section: Product Details - 70% width */}
-          <div className="lg:col-span-7 overflow-visible">
+          {/* Right Section: Product Details - 70% width (appears first on mobile, second on large screens) */}
+          <div className="lg:col-span-7 overflow-visible order-1 lg:order-2">
             <ProductDetailsPanel 
               activeStepId={activeStepId} 
               onStepClick={(id) => setActiveStepId(id)}
