@@ -139,45 +139,68 @@ export function StepArc({
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/70" />
 
       {/* Arc line behind the circles - Moderate brightness with glow */}
+      {/* Use stroke-dasharray to create gaps at circle positions */}
       <svg
         viewBox={`0 0 ${width} ${height}`}
         className="pointer-events-none absolute inset-x-0 top-0 h-full w-full"
         preserveAspectRatio="none"
         style={{ filter: 'drop-shadow(0 0 12px rgba(255,107,53,0.5))' }}
       >
-        {/* Outer glow */}
+        <defs>
+          {/* Create a mask to hide arc line where circles are */}
+          <mask id="arcMask">
+            <rect width="100%" height="100%" fill="white" />
+            {points.map((p) => {
+              // Calculate circle radius based on screen size
+              const circleRadius = width < 768 ? 24 : width < 1024 ? 40 : 64;
+              return (
+                <circle
+                  key={p.item.type === 'step' ? p.item.step.id : p.item.id}
+                  cx={p.x}
+                  cy={p.y}
+                  r={circleRadius}
+                  fill="black"
+                />
+              );
+            })}
+          </mask>
+        </defs>
+        
+        {/* Outer glow - masked to not pass through circles */}
         <path
           d={arcPath}
           fill="none"
           stroke="rgba(255,107,53,0.4)"
           strokeWidth={width < 768 ? 8 : width < 1024 ? 12 : 16}
           strokeLinecap="round"
-          style={{ filter: 'blur(6px)' }}
+          style={{ filter: 'blur(6px)', mask: 'url(#arcMask)' }}
         />
-        {/* Middle glow */}
+        {/* Middle glow - masked */}
         <path
           d={arcPath}
           fill="none"
           stroke="rgba(255,140,90,0.5)"
           strokeWidth={width < 768 ? 5 : width < 1024 ? 7 : 10}
           strokeLinecap="round"
-          style={{ filter: 'blur(3px)' }}
+          style={{ filter: 'blur(3px)', mask: 'url(#arcMask)' }}
         />
-        {/* Inner core */}
+        {/* Inner core - masked */}
         <path
           d={arcPath}
           fill="none"
           stroke="rgba(255,107,53,0.7)"
           strokeWidth={width < 768 ? 2.5 : width < 1024 ? 3.5 : 5}
           strokeLinecap="round"
+          style={{ mask: 'url(#arcMask)' }}
         />
-        {/* Center line */}
+        {/* Center line - masked */}
         <path
           d={arcPath}
           fill="none"
           stroke="rgba(255,184,107,0.8)"
           strokeWidth={width < 768 ? 1.5 : width < 1024 ? 2 : 3}
           strokeLinecap="round"
+          style={{ mask: 'url(#arcMask)' }}
         />
       </svg>
 

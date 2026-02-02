@@ -100,10 +100,6 @@ export function ProductDetailsPanel({
     <div
       className="relative rounded-xl overflow-visible border border-[#333333] h-auto w-full transition-all duration-500 bg-[#0A0A0A]"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: "contain",
-        backgroundPosition: "right top",
-        backgroundRepeat: "no-repeat",
         minHeight,
       }}
     >
@@ -119,7 +115,8 @@ export function ProductDetailsPanel({
       {/* Dark overlay to ensure text readability */}
       <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/70 rounded-xl overflow-hidden" />
 
-      {/* Compass Wheel - Top Right - Visible on all screens, resized for mobile */}
+      {/* Compass Wheel - Top Right - Only show for regular 8-step products, NOT for X/Z intervention products */}
+      {!isInterventionProduct && (
       <div className="absolute top-2 sm:top-3 md:top-4 z-20 flex flex-col items-center" style={{ right: width < 768 ? 'calc(0.5rem + 15px)' : width < 1024 ? 'calc(0.75rem + 20px)' : 'calc(1rem + 30px)' }}>
         <div className="text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] font-bold tracking-[0.2em] text-[#D4A574] uppercase mb-0.5 sm:mb-1 text-center">
           THE RIOT LINE™
@@ -224,13 +221,19 @@ export function ProductDetailsPanel({
             </div>
           </div>
         )}
-        {isInterventionProduct && (
-          <div className="text-center">
-            <div className="text-[9px] sm:text-[10px] md:text-[12px] lg:text-[14px] font-black tracking-[0.1em] text-[#D4A574] uppercase">
-              {stepData.name}
-            </div>
-          </div>
-        )}
+      </div>
+      )}
+
+      {/* Product Label Image - Large, prominent, front and center */}
+      <div className="absolute inset-0 flex items-center justify-center z-5 pointer-events-none">
+        <img
+          src={backgroundImage}
+          alt={`${stepData.name} Label`}
+          className="max-w-[60%] sm:max-w-[50%] md:max-w-[45%] lg:max-w-[40%] h-auto object-contain opacity-30 sm:opacity-40 md:opacity-50"
+          style={{
+            filter: "drop-shadow(0 0 30px rgba(255,107,53,0.3))",
+          }}
+        />
       </div>
 
       {/* Content overlaid on background */}
@@ -243,6 +246,12 @@ export function ProductDetailsPanel({
           <div className="text-xs sm:text-sm font-semibold tracking-wider text-white/60 mb-1 sm:mb-2">
             {stepData.productCode}
           </div>
+          {/* Show "Not part of the 8-Step System" for intervention products */}
+          {isInterventionProduct && (
+            <div className="text-xs sm:text-sm font-medium italic tracking-wider text-white/50 mb-1 sm:mb-2">
+              Not part of the 8-Step System
+            </div>
+          )}
           <div className="text-xs sm:text-sm text-white/80">
             {stepData.shortDescription}
           </div>
