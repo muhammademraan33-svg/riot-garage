@@ -224,12 +224,29 @@ export function ProductDetailsPanel({
       </div>
       )}
 
-      {/* Product Label Image - Large, prominent, front and center */}
-      <div className="absolute inset-0 flex items-center justify-center z-5 pointer-events-none">
+      {/* Car graphic as subtle background on desktop only */}
+      {width >= 1024 && (
+        <div 
+          className="absolute inset-0 bg-cover bg-right-top bg-no-repeat rounded-xl opacity-15"
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            zIndex: 1,
+          }}
+        />
+      )}
+
+      {/* Product Label Image - Large, prominent, front and center (more prominent on desktop) */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 5 }}>
         <img
           src={backgroundImage}
           alt={`${stepData.name} Label`}
-          className="max-w-[60%] sm:max-w-[50%] md:max-w-[45%] lg:max-w-[40%] h-auto object-contain opacity-30 sm:opacity-40 md:opacity-50"
+          className={`h-auto object-contain ${
+            width >= 1024 
+              ? "max-w-[80%] opacity-80" 
+              : width >= 768 
+              ? "max-w-[50%] opacity-40" 
+              : "max-w-[60%] opacity-30"
+          }`}
           style={{
             filter: "drop-shadow(0 0 30px rgba(255,107,53,0.3))",
           }}
