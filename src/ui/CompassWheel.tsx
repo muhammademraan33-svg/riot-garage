@@ -31,9 +31,6 @@ export function CompassWheel({
   
   const compassSize = isMobile ? 80 : isTablet ? 110 : 140;
   const fontSize = isMobile ? 12 : isTablet ? 11 : 14; // Increased from 8 to 12 for mobile
-  const innerRadius = isMobile ? 12 : isTablet ? 16 : 20;
-  const outerRadius = isMobile ? 35 : isTablet ? 48 : 60;
-  const textRadius = outerRadius - (isMobile ? 8 : isTablet ? 11 : 14);
 
   return (
     <div className="flex flex-col items-center">
