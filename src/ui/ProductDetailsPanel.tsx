@@ -53,14 +53,12 @@ export function ProductDetailsPanel({
   const isInterventionProduct = !activeStep;
   const backgroundImage = STEP_BACKGROUND_IMAGES[activeStepId] || "/step-grip.png";
   
-  // Responsive min height and width
+  // Responsive min height
   const [minHeight, setMinHeight] = useState("400px");
-  const [width, setWidth] = useState(1024);
   
   useEffect(() => {
     const updateDimensions = () => {
       const w = window.innerWidth;
-      setWidth(w);
       if (w < 768) {
         setMinHeight("300px");
       } else if (w < 1024) {
@@ -101,16 +99,14 @@ export function ProductDetailsPanel({
         </div>
       </div>
 
-      {/* Car graphic as subtle background on desktop only (client requirement) */}
-      {width >= 1024 && (
-        <div 
-          className="absolute inset-0 bg-cover bg-right-top bg-no-repeat rounded-xl opacity-15"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            zIndex: 1,
-          }}
-        />
-      )}
+      {/* Car graphic as subtle background - show on all screens */}
+      <div 
+        className="absolute inset-0 bg-cover bg-right-top bg-no-repeat rounded-xl opacity-15"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          zIndex: 1,
+        }}
+      />
 
       {/* Content - Clean vertical stack (Phase 4) */}
       <div className="relative z-10 flex flex-col p-4 sm:p-5 md:p-6 pt-6 sm:pt-7 md:pt-8">

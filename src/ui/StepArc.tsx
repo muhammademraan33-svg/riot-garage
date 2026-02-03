@@ -2,6 +2,25 @@ import { useState, useEffect } from "react";
 import type { Step, StepId } from "../pages/Home";
 import { CompassWheel } from "./CompassWheel";
 
+// Map intervention product IDs to their abbreviations
+const INTERVENTION_ABBREVIATIONS: Record<StepId, string> = {
+  "x-dirty": "DD",
+  "x-extract": "TRACT",
+  "x-blaq": "SSR",
+  "x-fal": "FALL",
+  "x-field": "FW",
+  "z-fortify": "FORT",
+  // Regular steps (not used, but needed for type safety)
+  grip: "",
+  purge: "",
+  assault: "",
+  clarity: "",
+  cockpit: "",
+  revive: "",
+  lustre: "",
+  shield: "",
+};
+
 export function StepArc({
   steps,
   activeId,
@@ -326,7 +345,8 @@ export function StepArc({
                       ? "text-[10px] sm:text-xs md:text-sm lg:text-xl text-[#FF6B35]"
                       : "text-[7px] sm:text-xs md:text-sm lg:text-xl text-white/80"
                   }`}>
-                    {item.name.split('-')[1]?.substring(0, 2).toUpperCase() || 
+                    {INTERVENTION_ABBREVIATIONS[item.id] || 
+                     item.name.split('-')[1]?.substring(0, 2).toUpperCase() || 
                      item.name.split(' ')[0].replace('X-', '').replace('Z-', '').substring(0, 2).toUpperCase()}
                   </span>
                 </div>
@@ -357,6 +377,7 @@ export function StepArc({
           <CompassWheel 
             activeStepId={activeId}
             onStepClick={onStepClick}
+            width={width}
           />
         </div>
       )}

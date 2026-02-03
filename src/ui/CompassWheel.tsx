@@ -16,50 +16,67 @@ const STEP_NUMBER_TO_ID: Record<string, StepId> = {
 export function CompassWheel({
   activeStepId,
   onStepClick,
+  width,
 }: {
   activeStepId: StepId;
   onStepClick?: (id: StepId) => void;
+  width?: number;
 }) {
   const activeStep = STEPS.find((s) => s.id === activeStepId);
   const activeStepNumber = activeStep?.number || null;
 
+  // Responsive sizing based on screen width
+  const isMobile = width ? width < 768 : typeof window !== 'undefined' && window.innerWidth < 768;
+  const isTablet = width ? width >= 768 && width < 1024 : typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
+  
+  const compassSize = isMobile ? 80 : isTablet ? 110 : 140;
+  const fontSize = isMobile ? 12 : isTablet ? 11 : 14; // Increased from 8 to 12 for mobile
+  const innerRadius = isMobile ? 12 : isTablet ? 16 : 20;
+  const outerRadius = isMobile ? 35 : isTablet ? 48 : 60;
+  const textRadius = outerRadius - (isMobile ? 8 : isTablet ? 11 : 14);
+
   return (
     <div className="flex flex-col items-center">
-      <div className="text-[10px] font-bold tracking-[0.2em] text-[#D4A574] uppercase mb-1 text-center">
+      <div className={`font-bold tracking-[0.2em] text-[#D4A574] uppercase mb-1 text-center ${
+        isMobile ? 'text-[6px]' : isTablet ? 'text-[8px]' : 'text-[10px]'
+      }`}>
         THE RIOT LINE™
       </div>
-      <div className="text-[9px] font-bold tracking-[0.15em] text-white uppercase mb-3 text-center">
+      <div className={`font-bold tracking-[0.15em] text-white uppercase mb-2 text-center ${
+        isMobile ? 'text-[5px] mb-1.5' : isTablet ? 'text-[7px] mb-2' : 'text-[9px] mb-3'
+      }`}>
         8 STEP SYSTEM
       </div>
       
       {/* Compass SVG */}
-      <div className="relative w-[140px] h-[140px] mb-2">
-        <svg width="140" height="140" viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
+      <div className={`relative mb-1 sm:mb-2`} style={{ width: `${compassSize}px`, height: `${compassSize}px` }}>
+        <svg width={compassSize} height={compassSize} viewBox="0 0 140 140" className="absolute inset-0 w-full h-full">
           {Array.from({ length: 8 }).map((_, i) => {
             const stepNumber = String(i + 1).padStart(2, '0');
             const isActive = stepNumber === activeStepNumber;
             const centerX = 70;
             const centerY = 70;
+            // Keep original proportions in 140x140 viewBox, scale happens via container
             const radius = 60;
-            const innerRadius = 20;
+            const innerRadiusScaled = 20;
             const startAngle = (i * 45 - 90) * Math.PI / 180;
             const endAngle = ((i + 1) * 45 - 90) * Math.PI / 180;
             
-            const x1 = centerX + innerRadius * Math.cos(startAngle);
-            const y1 = centerY + innerRadius * Math.sin(startAngle);
+            const x1 = centerX + innerRadiusScaled * Math.cos(startAngle);
+            const y1 = centerY + innerRadiusScaled * Math.sin(startAngle);
             const x2 = centerX + radius * Math.cos(startAngle);
             const y2 = centerY + radius * Math.sin(startAngle);
             const x3 = centerX + radius * Math.cos(endAngle);
             const y3 = centerY + radius * Math.sin(endAngle);
-            const x4 = centerX + innerRadius * Math.cos(endAngle);
-            const y4 = centerY + innerRadius * Math.sin(endAngle);
+            const x4 = centerX + innerRadiusScaled * Math.cos(endAngle);
+            const y4 = centerY + innerRadiusScaled * Math.sin(endAngle);
             
-            const pathD = `M ${x1} ${y1} L ${x2} ${y2} A ${radius} ${radius} 0 0 1 ${x3} ${y3} L ${x4} ${y4} A ${innerRadius} ${innerRadius} 0 0 0 ${x1} ${y1}`;
+            const pathD = `M ${x1} ${y1} L ${x2} ${y2} A ${radius} ${radius} 0 0 1 ${x3} ${y3} L ${x4} ${y4} A ${innerRadiusScaled} ${innerRadiusScaled} 0 0 0 ${x1} ${y1}`;
             
             const midAngle = (startAngle + endAngle) / 2;
-            const textRadius = radius - 14;
-            const textX = centerX + textRadius * Math.cos(midAngle);
-            const textY = centerY + textRadius * Math.sin(midAngle);
+            const textRadiusScaled = radius - 14;
+            const textX = centerX + textRadiusScaled * Math.cos(midAngle);
+            const textY = centerY + textRadiusScaled * Math.sin(midAngle);
             
             return (
               <g key={i}>
@@ -85,7 +102,7 @@ export function CompassWheel({
                   textAnchor="middle"
                   dominantBaseline="middle"
                   fill="#ffffff"
-                  fontSize="14"
+                  fontSize={fontSize}
                   fontWeight="900"
                   fontFamily="Arial, sans-serif"
                   className="cursor-pointer select-none"
@@ -112,7 +129,7 @@ export function CompassWheel({
             r="20"
             fill="#2a2a2a"
             stroke="#B87333"
-            strokeWidth="2"
+            strokeWidth={isMobile ? "1.5" : isTablet ? "1.75" : "2"}
           />
         </svg>
       </div>
@@ -120,10 +137,14 @@ export function CompassWheel({
       {/* Step label below compass */}
       {activeStepNumber && (
         <div className="text-center">
-          <div className="text-[10px] font-bold tracking-[0.1em] text-white uppercase mb-0.5">
+          <div className={`font-bold tracking-[0.1em] text-white uppercase mb-0.5 ${
+            isMobile ? 'text-[6px]' : isTablet ? 'text-[8px]' : 'text-[10px]'
+          }`}>
             STEP {activeStepNumber}
           </div>
-          <div className="text-[14px] font-black tracking-[0.1em] text-[#D4A574] uppercase">
+          <div className={`font-black tracking-[0.1em] text-[#D4A574] uppercase ${
+            isMobile ? 'text-[8px]' : isTablet ? 'text-[11px]' : 'text-[14px]'
+          }`}>
             {activeStep?.label || "GRIP"}
           </div>
         </div>

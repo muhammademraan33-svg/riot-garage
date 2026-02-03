@@ -292,7 +292,7 @@ export function Home() {
       <TopNav />
 
       {/* Add padding-top to account for larger overlapping logo */}
-      <main className="mx-auto max-w-[1920px] px-3 sm:px-4 md:px-6 pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8 md:pb-10 relative z-0">
+      <main className="mx-auto max-w-[1920px] px-3 sm:px-4 md:px-6 pt-4 sm:pt-5 md:pt-6 pb-6 sm:pb-8 md:pb-10 relative z-0">
         {/* Step Arc Progress Bar with Banner-Product background */}
         <div className="mb-10">
           <StepArc
@@ -304,12 +304,25 @@ export function Home() {
         </div>
 
         {/* Heading Banner */}
-        <div className="mb-4 sm:mb-5 md:mb-6 rounded-lg bg-black/40 border border-[#333333] px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
-          <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-black tracking-[0.16em] text-white uppercase">
-            The Riot Line™
-          </div>
-          <div className="text-xs sm:text-sm font-medium italic tracking-[0.1em] text-white/75 uppercase">
-            Core 8-Step Workflow
+        <div className="mb-4 sm:mb-5 md:mb-6 rounded-lg bg-black/40 border border-[#333333] px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+            {/* Left: The Riot Line™ */}
+            <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-black tracking-[0.16em] text-white uppercase">
+              The Riot Line™
+            </div>
+            
+            {/* Center: Space for rolling/scrolling messages (future feature) */}
+            <div className="flex-1 flex items-center justify-center min-h-[24px] sm:min-h-[28px] md:min-h-[32px] px-4 sm:px-6 md:px-8">
+              {/* Placeholder for rolling messages - will be implemented later */}
+              <div className="text-xs sm:text-sm font-medium tracking-[0.1em] text-white/40 italic">
+                {/* Rolling messages will appear here */}
+              </div>
+            </div>
+            
+            {/* Right: Core 8-Step Workflow */}
+            <div className="text-xs sm:text-sm font-medium italic tracking-[0.1em] text-white/75 uppercase">
+              Core 8-Step Workflow
+            </div>
           </div>
         </div>
 
