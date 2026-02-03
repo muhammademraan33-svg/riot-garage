@@ -10,37 +10,37 @@ type InterventionProduct = {
 const INTERVENTION_PRODUCTS: InterventionProduct[] = [
   {
     id: "x-dirty",
-    name: "X-DIRTY DETAILS",
+    name: "X·DIRTY DETAILS",
     description: "Heavy Soil Pre-Treatment",
     group: "Pre-Wash",
   },
   {
     id: "x-extract",
-    name: "X-EXTRACTION",
+    name: "X·TRACT",
     description: "Organic Stain Removal",
     group: "Pre-Wash",
   },
   {
     id: "x-blaq",
-    name: "X-SEE SPOT RUN",
+    name: "X·SEE SPOT RUN",
     description: "Adhesive Removal",
     group: "Pre-Wash",
   },
   {
     id: "x-fal",
-    name: "X-FALLOUT",
+    name: "X·FALLOUT",
     description: "Iron Decontamination",
     group: "Post-Wash Decon",
   },
   {
     id: "x-field",
-    name: "X-FIELD WASH",
+    name: "X·FIELD WASH",
     description: "Rinseless / Waterless",
     group: "Field Wash Alt",
   },
   {
     id: "z-fortify",
-    name: "Z-FORTIFY",
+    name: "Z·FORTIFY",
     description: "Protective Barrier Treatment",
     group: "Post-Protection Enhancement",
   },

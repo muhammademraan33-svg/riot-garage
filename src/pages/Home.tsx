@@ -3,7 +3,6 @@ import { StepArc } from "../ui/StepArc";
 import { TopNav } from "../ui/TopNav";
 import { ProductBottleDisplay } from "../ui/ProductBottleDisplay";
 import { ProductDetailsPanel } from "../ui/ProductDetailsPanel";
-import { CompassWheel } from "../ui/CompassWheel";
 import { ProductLabel } from "../ui/ProductLabel";
 
 export type StepId =
@@ -124,7 +123,7 @@ export const STEP_DATA: Record<StepId, StepData> = {
     goodToKnow: "Maintenance topper.",
   },
   "x-dirty": {
-    name: "X-DIRTY DETAILS",
+    name: "X·DIRTY DETAILS",
     productCode: "RG-X-DIRTY",
     shortDescription: "Heavy soil pre-treatment.",
     whatItIs: "Concentrated pre-soak for heavily soiled vehicles.",
@@ -134,7 +133,7 @@ export const STEP_DATA: Record<StepId, StepData> = {
     goodToKnow: "Use before PURGE on extreme dirt.",
   },
   "x-extract": {
-    name: "X-EXTRACTION",
+    name: "X·TRACT",
     productCode: "RG-X-EXTRACT",
     shortDescription: "Organic stain removal.",
     whatItIs: "Bio-enzymatic stain remover.",
@@ -144,7 +143,7 @@ export const STEP_DATA: Record<StepId, StepData> = {
     goodToKnow: "Safe for interior fabrics and carpets.",
   },
   "x-blaq": {
-    name: "X-SEE SPOT RUN",
+    name: "X·SEE SPOT RUN",
     productCode: "RG-X-BLAQ",
     shortDescription: "Adhesive and tar removal.",
     whatItIs: "Solvent-based adhesive remover.",
@@ -154,7 +153,7 @@ export const STEP_DATA: Record<StepId, StepData> = {
     goodToKnow: "Test on inconspicuous area first.",
   },
   "x-fal": {
-    name: "X-FALLOUT",
+    name: "X·FALLOUT",
     productCode: "RG-X-FAL",
     shortDescription: "Iron decontamination.",
     whatItIs: "pH-balanced iron remover.",
@@ -164,7 +163,7 @@ export const STEP_DATA: Record<StepId, StepData> = {
     goodToKnow: "Critical before wax or coating application.",
   },
   "x-field": {
-    name: "X-FIELD WASH",
+    name: "X·FIELD WASH",
     productCode: "RG-X-FIELD",
     shortDescription: "Rinseless wash concentrate.",
     whatItIs: "Waterless/rinseless wash solution.",
@@ -174,7 +173,7 @@ export const STEP_DATA: Record<StepId, StepData> = {
     goodToKnow: "Replaces GRIP and PURGE steps in field conditions.",
   },
   "z-fortify": {
-    name: "Z-FORTIFY",
+    name: "Z·FORTIFY",
     productCode: "RG-Z-FORTIFY",
     shortDescription: "Advanced protective barrier treatment.",
     whatItIs: "High-performance ceramic coating booster.",
@@ -260,8 +259,25 @@ export function Home() {
   
   // Handle step click with scroll to Product Information Zone
   const handleStepClick = (id: StepId) => {
-    setActiveStepId(id);
+    // If clicking the same intervention product that's already active, return to baseline (GRIP)
+    if (isInterventionProduct && activeStepId === id) {
+      setActiveStepId("grip");
+    } else {
+      setActiveStepId(id);
+    }
     // Scroll to Product Information Zone after a short delay to allow state update
+    setTimeout(() => {
+      productInfoZoneRef.current?.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start',
+        inline: 'nearest'
+      });
+    }, 100);
+  };
+  
+  // Handle return to Riot Line (baseline)
+  const handleReturnToRiotLine = () => {
+    setActiveStepId("grip");
     setTimeout(() => {
       productInfoZoneRef.current?.scrollIntoView({ 
         behavior: 'smooth', 
@@ -439,6 +455,7 @@ export function Home() {
           >
             <ProductDetailsPanel 
               activeStepId={activeStepId}
+              onReturnToRiotLine={handleReturnToRiotLine}
             />
           </div>
 
@@ -452,19 +469,11 @@ export function Home() {
             </div>
           )}
 
-          {/* RIGHT COLUMN: Compass / Step Wheel - Desktop only, hidden for intervention products */}
+          {/* RIGHT COLUMN: Future Placeholder (Phase 7) - Desktop only, hidden for intervention products */}
           {!isInterventionProduct && (
             <div className="hidden lg:block lg:col-span-3 lg:order-4">
               <div className="sticky top-4 flex flex-col gap-6">
-                {/* UPPER: Compass / 8-Step Wheel */}
-                <div>
-                  <CompassWheel 
-                    activeStepId={activeStepId}
-                    onStepClick={handleStepClick}
-                  />
-                </div>
-                
-                {/* LOWER: Future Placeholder (Phase 7) - Empty/minimal, reserved for future content */}
+                {/* LOWER: Future Placeholder - Empty/minimal, reserved for future content */}
                 <div className="min-h-[200px]">
                   {/* Intentionally left empty - reserved for future use:
                       - Pro Tip

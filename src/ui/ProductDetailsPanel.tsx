@@ -13,7 +13,7 @@ const STEP_LABEL_IMAGES: Record<StepId, string> = {
   lustre: "/new-brand/LUSTRE — STEP 07-Front & Back.png",
   shield: "/new-brand/SHIELD — STEP 08-Front & Back.png",
   "x-dirty": "/new-iz/X·DIRTY DETAILS-Front & Back.png",
-  "x-extract": "/new-iz/X·TRACT-Front & Back.png", // X·EXTRACTION not found, using X·TRACT as placeholder
+  "x-extract": "/new-iz/X·TRACT-Front & Back.png",
   "x-blaq": "/new-iz/X·SEE SPOT RUN-Front & Back.png",
   "x-fal": "/new-iz/X FALLOUT-Front & Back.png",
   "x-field": "/new-iz/X·FIELD WASH-Front & Back.png",
@@ -42,9 +42,11 @@ const STEP_BACKGROUND_IMAGES: Record<StepId, string> = {
 export { STEP_LABEL_IMAGES };
 
 export function ProductDetailsPanel({ 
-  activeStepId
+  activeStepId,
+  onReturnToRiotLine
 }: { 
   activeStepId: StepId;
+  onReturnToRiotLine?: () => void;
 }) {
   const activeStep = STEPS.find((s) => s.id === activeStepId);
   const stepData = STEP_DATA[activeStepId];
@@ -122,11 +124,24 @@ export function ProductDetailsPanel({
           {stepData.productCode}
         </div>
 
-        {/* Show "Not part of the 8-Step System" for intervention products */}
+        {/* Show "Not part of the 8-Step System" and Return button for intervention products */}
         {isInterventionProduct && (
-          <div className="text-sm font-medium italic tracking-wider text-white/50 mb-3">
-            Not part of the 8-Step System
-          </div>
+          <>
+            <div className="text-sm font-medium italic tracking-wider text-white/50 mb-3">
+              Not part of the 8-Step System
+            </div>
+            {/* Return to Riot Line Button */}
+            {onReturnToRiotLine && (
+              <div className="mb-4">
+                <button
+                  onClick={onReturnToRiotLine}
+                  className="rounded-lg bg-[#D4A574] hover:bg-[#B87333] px-6 py-2.5 text-sm font-bold tracking-wider text-black transition-colors shadow-[0_0_15px_rgba(212,165,116,0.3)]"
+                >
+                  ← RETURN TO RIOT LINE
+                </button>
+              </div>
+            )}
+          </>
         )}
 
         {/* Short Description */}

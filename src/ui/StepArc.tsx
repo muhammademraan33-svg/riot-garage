@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Step, StepId } from "../pages/Home";
+import { CompassWheel } from "./CompassWheel";
 
 export function StepArc({
   steps,
@@ -16,6 +17,8 @@ export function StepArc({
     position: 'between-1-2' | 'between-3-4' | 'after-8' | 'replaces-1-2';
   } | null;
 }) {
+  // Find Step 08 (shield) for compass placement check
+  const step08 = steps.find(s => s.id === 'shield');
   // Responsive sizing
   const [dimensions, setDimensions] = useState({ width: 1100, height: 480 });
   
@@ -341,6 +344,22 @@ export function StepArc({
           }
         })}
       </div>
+
+      {/* Compass Wheel - Upper right corner, above Step 08 (only show for regular 8-step products, NOT for intervention products) */}
+      {!interventionProduct && step08 && (
+        <div 
+          className="absolute z-20"
+          style={{
+            right: width < 768 ? '0.5rem' : width < 1024 ? '1rem' : '1.5rem',
+            top: width < 768 ? '0.5rem' : width < 1024 ? '0.75rem' : '1rem',
+          }}
+        >
+          <CompassWheel 
+            activeStepId={activeId}
+            onStepClick={onStepClick}
+          />
+        </div>
+      )}
     </div>
   );
 }
