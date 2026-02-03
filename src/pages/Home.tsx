@@ -1,15 +1,17 @@
-import { useState, Fragment, useRef } from "react";
+import { useState, Fragment, useRef, useEffect } from "react";
 import { StepArc } from "../ui/StepArc";
 import { TopNav } from "../ui/TopNav";
 import { ProductBottleDisplay } from "../ui/ProductBottleDisplay";
 import { ProductDetailsPanel } from "../ui/ProductDetailsPanel";
+import { CompassWheel } from "../ui/CompassWheel";
+import { ProductLabel } from "../ui/ProductLabel";
 
 export type StepId =
   | "grip"
   | "purge"
   | "assault"
   | "clarity"
-  | "surface"
+  | "cockpit"
   | "revive"
   | "lustre"
   | "shield"
@@ -71,9 +73,9 @@ export const STEP_DATA: Record<StepId, StepData> = {
     deploymentProtocol: "Spray, wipe, buff.",
     goodToKnow: "Use dedicated towels.",
   },
-  surface: {
-    name: "SURFACE",
-    productCode: "RG-STEP05-SURFACE",
+  cockpit: {
+    name: "COCKPIT",
+    productCode: "RG-STEP05-COCKPIT",
     shortDescription: "Cleans interior plastics.",
     whatItIs: "Interior surface cleaner.",
     capabilities: "Removes oils and dust.",
@@ -142,7 +144,7 @@ export const STEP_DATA: Record<StepId, StepData> = {
     goodToKnow: "Safe for interior fabrics and carpets.",
   },
   "x-blaq": {
-    name: "X-BLAQOUT",
+    name: "X-SEE SPOT RUN",
     productCode: "RG-X-BLAQ",
     shortDescription: "Adhesive and tar removal.",
     whatItIs: "Solvent-based adhesive remover.",
@@ -188,7 +190,7 @@ export const STEPS: Step[] = [
   { id: "purge", number: "02", label: "PURGE", category: "PRE-WASH" },
   { id: "assault", number: "03", label: "ASSAULT", category: "CONTACT WASH" },
   { id: "clarity", number: "04", label: "CLARITY", category: "GLASS" },
-  { id: "surface", number: "05", label: "SURFACE", category: "INTERIOR CLEAN" },
+  { id: "cockpit", number: "05", label: "COCKPIT", category: "INTERIOR CLEAN" },
   { id: "revive", number: "06", label: "REVIVE", category: "INTERIOR SHIELD" },
   { id: "lustre", number: "07", label: "LUSTRE", category: "GLOSS BOOST" },
   { id: "shield", number: "08", label: "SHIELD", category: "PROTECTION" },
@@ -200,6 +202,18 @@ export function Home() {
   
   // Ref for Product Information Zone to scroll into view
   const productInfoZoneRef = useRef<HTMLDivElement>(null);
+  
+  // Track window width for responsive label display
+  const [width, setWidth] = useState(1024);
+  
+  useEffect(() => {
+    const updateWidth = () => {
+      setWidth(window.innerWidth);
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
   
   // Check if current selection is an intervention product
   const isInterventionProduct = [
@@ -400,12 +414,11 @@ export function Home() {
           })}
         </div>
 
-        {/* Two sections: Left (Product Display) and Right (Product Details) */}
-        {/* When intervention product is selected: Hide Intervention Zone, show only Product Details */}
+        {/* PHASE 2: 3-Column Desktop Layout */}
         {/* Mobile: Stacked (Product Details first, then Intervention Zone below) */}
-        {/* Larger screens: Side by side (Intervention Zone left 30%, Product Details right 70%) */}
-        <div className="mt-4 sm:mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-10 gap-3 sm:gap-4 md:gap-6 lg:gap-8 items-stretch">
-          {/* Left Section: Product Bottle Display - 30% width (hidden when intervention product is selected) */}
+        {/* Desktop (≥1024px): Layout - Left: IZ (3 cols), Center: PIZ (6 cols), Label (3 cols), Right: Compass (3 cols) */}
+        <div className="mt-4 sm:mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 md:gap-6 lg:gap-8 items-start overflow-visible">
+          {/* LEFT COLUMN: Intervention Zone™ - Desktop only, hidden on mobile when intervention product selected */}
           {!isInterventionProduct && (
             <div className="lg:col-span-3 order-2 lg:order-1">
               <ProductBottleDisplay 
@@ -415,16 +428,55 @@ export function Home() {
             </div>
           )}
 
-          {/* Right Section: Product Details - 70% width (full width when intervention selected, 70% otherwise) */}
+          {/* CENTER COLUMN: Product Information Zone™ (PIZ) - Narrower on desktop to create space for label */}
           <div 
             ref={productInfoZoneRef} 
-            className={`overflow-visible order-1 ${isInterventionProduct ? 'lg:col-span-10' : 'lg:col-span-7 lg:order-2'}`}
+            className={`overflow-visible order-1 ${
+              isInterventionProduct 
+                ? 'lg:col-span-6 lg:order-2' 
+                : 'lg:col-span-6 lg:order-2'
+            }`}
           >
             <ProductDetailsPanel 
-              activeStepId={activeStepId} 
-              onStepClick={handleStepClick}
+              activeStepId={activeStepId}
             />
           </div>
+
+          {/* PRODUCT LABEL - Right of PIZ (Phase 5) - Desktop only, shown for all products */}
+          {width >= 1024 && (
+            <div className="hidden lg:block lg:col-span-3 lg:order-3">
+              <ProductLabel 
+                activeStepId={activeStepId}
+                width={width}
+              />
+            </div>
+          )}
+
+          {/* RIGHT COLUMN: Compass / Step Wheel - Desktop only, hidden for intervention products */}
+          {!isInterventionProduct && (
+            <div className="hidden lg:block lg:col-span-3 lg:order-4">
+              <div className="sticky top-4 flex flex-col gap-6">
+                {/* UPPER: Compass / 8-Step Wheel */}
+                <div>
+                  <CompassWheel 
+                    activeStepId={activeStepId}
+                    onStepClick={handleStepClick}
+                  />
+                </div>
+                
+                {/* LOWER: Future Placeholder (Phase 7) - Empty/minimal, reserved for future content */}
+                <div className="min-h-[200px]">
+                  {/* Intentionally left empty - reserved for future use:
+                      - Pro Tip
+                      - Cross-sell ("Pairs with...")
+                      - Video thumbnail
+                      - Bundle CTA
+                      - Reviews
+                  */}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>
