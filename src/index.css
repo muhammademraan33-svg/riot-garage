@@ -54,3 +54,17 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(6px);
 }
+
+/* Scrolling text animation */
+@keyframes scroll {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 3s ease-in-out infinite;
+}

@@ -274,8 +274,8 @@ export function StepArc({
                   <span
                     className={`font-black tracking-[0.24em] leading-tight ${
                       isActive 
-                        ? "text-[10px] sm:text-xs md:text-sm lg:text-xl text-[#FF6B35]" 
-                        : "text-[7px] sm:text-xs md:text-sm lg:text-xl text-white/80"
+                        ? "text-[12px] sm:text-sm md:text-base lg:text-2xl text-[#FF6B35]" 
+                        : "text-[9px] sm:text-sm md:text-base lg:text-2xl text-white/80"
                     }`}
                   >
                     {item.step.number}
@@ -284,8 +284,8 @@ export function StepArc({
                 <span
                   className={`font-semibold tracking-[0.24em] ${
                     isActive 
-                      ? "text-[8px] sm:text-[9px] md:text-xs lg:text-sm text-[#FF6B35]" 
-                      : "text-[6px] sm:text-[9px] md:text-xs lg:text-sm text-white/75"
+                      ? "text-[9px] sm:text-[10px] md:text-sm lg:text-base text-[#FF6B35]" 
+                      : "text-[7px] sm:text-[10px] md:text-sm lg:text-base text-white/75"
                   }`}
                 >
                   {item.step.label}
@@ -354,8 +354,8 @@ export function StepArc({
                 {/* Product name label */}
                 <span className={`font-semibold tracking-[0.24em] text-center ${
                   isActive
-                    ? "text-[8px] sm:text-[9px] md:text-xs lg:text-sm text-[#FF6B35]"
-                    : "text-[6px] sm:text-[9px] md:text-xs lg:text-sm text-white/75"
+                    ? "text-[9px] sm:text-[10px] md:text-sm lg:text-base text-[#FF6B35]"
+                    : "text-[7px] sm:text-[10px] md:text-sm lg:text-base text-white/75"
                 }`}>
                   {item.name}
                 </span>

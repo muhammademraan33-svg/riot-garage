@@ -311,11 +311,20 @@ export function Home() {
               The Riot Line™
             </div>
             
-            {/* Center: Space for rolling/scrolling messages (future feature) */}
+            {/* Center: Scrolling message - Advertisement style */}
             <div className="flex-1 flex items-center justify-center min-h-[24px] sm:min-h-[28px] md:min-h-[32px] px-4 sm:px-6 md:px-8">
-              {/* Placeholder for rolling messages - will be implemented later */}
-              <div className="text-xs sm:text-sm font-medium tracking-[0.1em] text-white/40 italic">
-                {/* Rolling messages will appear here */}
+              <div 
+                className="text-sm sm:text-base md:text-lg lg:text-xl font-black tracking-[0.15em] text-[#FF6B35] uppercase px-4 sm:px-6 py-1 sm:py-1.5 rounded-lg bg-[#FF6B35]/10 border border-[#FF6B35]/30"
+                style={{
+                  textShadow: `
+                    0 0 10px rgba(255,107,53,0.8),
+                    0 0 20px rgba(255,107,53,0.5),
+                    0 2px 4px rgba(0,0,0,0.8)
+                  `,
+                  filter: 'drop-shadow(0 0 8px rgba(255,107,53,0.6))'
+                }}
+              >
+                All products will start shipping March 2026!
               </div>
             </div>
             
