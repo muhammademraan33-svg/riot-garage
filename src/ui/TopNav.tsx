@@ -48,6 +48,26 @@ export function TopNav() {
             </div>
           </div>
 
+          {/* Right: Return to Main Site Button - Mobile */}
+          <div className="relative z-10 flex-shrink-0 ml-2 sm:ml-4">
+            <button
+              className="px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 text-[8px] sm:text-xs md:text-sm font-bold tracking-wider uppercase border border-[#FF6B35]/50 bg-[#1a1a1a]/80 backdrop-blur-sm rounded transition-all hover:border-[#FF6B35] hover:bg-[#FF6B35]/10"
+              style={{
+                color: '#FFFFFF',
+                textShadow: `
+                  0 0 8px rgba(255,107,53,0.6),
+                  0 0 15px rgba(255,107,53,0.4),
+                  0 1px 2px rgba(0,0,0,0.8)
+                `,
+                boxShadow: `
+                  0 0 10px rgba(255,107,53,0.3),
+                  inset 0 0 10px rgba(255,107,53,0.1)
+                `
+              }}
+            >
+              Return to Main Site
+            </button>
+          </div>
         </div>
 
         {/* Desktop Layout (≥1024px): Logo (left), Centered Text, Empty space (right) */}
@@ -86,9 +106,25 @@ export function TopNav() {
             </h1>
           </div>
 
-          {/* Right: Empty spacer to maintain layout balance (icons removed) */}
+          {/* Right: Return to Main Site Button */}
           <div className="flex items-center justify-end">
-            <div className="w-60"></div>
+            <button
+              className="px-5 py-2.5 text-sm font-bold tracking-wider uppercase border border-[#FF6B35]/50 bg-[#1a1a1a]/80 backdrop-blur-sm rounded transition-all hover:border-[#FF6B35] hover:bg-[#FF6B35]/10"
+              style={{
+                color: '#FFFFFF',
+                textShadow: `
+                  0 0 8px rgba(255,107,53,0.6),
+                  0 0 15px rgba(255,107,53,0.4),
+                  0 1px 2px rgba(0,0,0,0.8)
+                `,
+                boxShadow: `
+                  0 0 10px rgba(255,107,53,0.3),
+                  inset 0 0 10px rgba(255,107,53,0.1)
+                `
+              }}
+            >
+              Return to Main Site
+            </button>
           </div>
         </div>
       </div>
