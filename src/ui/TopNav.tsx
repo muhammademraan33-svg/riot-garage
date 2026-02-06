@@ -1,4 +1,8 @@
+import { Link, useLocation } from "react-router-dom";
+
 export function TopNav() {
+  const location = useLocation();
+  
   return (
     <header className="relative border-b border-[#333333]/50 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] backdrop-blur-sm overflow-visible z-10">
       {/* Metallic texture overlay */}
@@ -46,28 +50,31 @@ export function TopNav() {
                 Riot Garage Detail System
               </h1>
             </div>
+            {/* Mobile Navigation Links */}
+            <div className="flex items-center gap-3 mt-2">
+              <Link
+                to="/"
+                className={`text-xs font-semibold tracking-[0.1em] uppercase transition-colors ${
+                  location.pathname === '/'
+                    ? 'text-[#FF6B35]'
+                    : 'text-white/70 hover:text-[#FF6B35]'
+                }`}
+              >
+                The Riot Line
+              </Link>
+              <Link
+                to="/kits-and-bundles"
+                className={`text-xs font-semibold tracking-[0.1em] uppercase transition-colors ${
+                  location.pathname === '/kits-and-bundles'
+                    ? 'text-[#FF6B35]'
+                    : 'text-white/70 hover:text-[#FF6B35]'
+                }`}
+              >
+                Kits & Bundles
+              </Link>
+            </div>
           </div>
 
-          {/* Right: Return to Main Site Button - Mobile */}
-          <div className="relative z-10 flex-shrink-0 ml-2 sm:ml-4">
-            <button
-              className="px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 text-[8px] sm:text-xs md:text-sm font-bold tracking-wider uppercase border border-[#FF6B35]/50 bg-[#1a1a1a]/80 backdrop-blur-sm rounded transition-all hover:border-[#FF6B35] hover:bg-[#FF6B35]/10"
-              style={{
-                color: '#FFFFFF',
-                textShadow: `
-                  0 0 8px rgba(255,107,53,0.6),
-                  0 0 15px rgba(255,107,53,0.4),
-                  0 1px 2px rgba(0,0,0,0.8)
-                `,
-                boxShadow: `
-                  0 0 10px rgba(255,107,53,0.3),
-                  inset 0 0 10px rgba(255,107,53,0.1)
-                `
-              }}
-            >
-              Return to Main Site
-            </button>
-          </div>
         </div>
 
         {/* Desktop Layout (≥1024px): Logo (left), Centered Text, Empty space (right) */}
@@ -106,25 +113,28 @@ export function TopNav() {
             </h1>
           </div>
 
-          {/* Right: Return to Main Site Button */}
-          <div className="flex items-center justify-end">
-            <button
-              className="px-5 py-2.5 text-sm font-bold tracking-wider uppercase border border-[#FF6B35]/50 bg-[#1a1a1a]/80 backdrop-blur-sm rounded transition-all hover:border-[#FF6B35] hover:bg-[#FF6B35]/10"
-              style={{
-                color: '#FFFFFF',
-                textShadow: `
-                  0 0 8px rgba(255,107,53,0.6),
-                  0 0 15px rgba(255,107,53,0.4),
-                  0 1px 2px rgba(0,0,0,0.8)
-                `,
-                boxShadow: `
-                  0 0 10px rgba(255,107,53,0.3),
-                  inset 0 0 10px rgba(255,107,53,0.1)
-                `
-              }}
+          {/* Right: Navigation Links */}
+          <div className="flex items-center justify-end gap-4">
+            <Link
+              to="/"
+              className={`text-sm font-semibold tracking-[0.1em] uppercase transition-colors ${
+                location.pathname === '/'
+                  ? 'text-[#FF6B35]'
+                  : 'text-white/70 hover:text-[#FF6B35]'
+              }`}
             >
-              Return to Main Site
-            </button>
+              The Riot Line
+            </Link>
+            <Link
+              to="/kits-and-bundles"
+              className={`text-sm font-semibold tracking-[0.1em] uppercase transition-colors ${
+                location.pathname === '/kits-and-bundles'
+                  ? 'text-[#FF6B35]'
+                  : 'text-white/70 hover:text-[#FF6B35]'
+              }`}
+            >
+              Kits & Bundles
+            </Link>
           </div>
         </div>
       </div>

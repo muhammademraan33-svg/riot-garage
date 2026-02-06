@@ -185,7 +185,7 @@ export function ProductDetailsPanel({
           </p>
         </div>
 
-        {/* ADD TO GO-BAG Button */}
+        {/* ADD TO GO-BAG Button - Static button (individual product scripts will be added later) */}
         <div className="flex justify-center mt-6 mb-4">
           <button className="rounded-lg bg-[#FF6B35] px-8 py-3 text-base font-bold tracking-wider text-white shadow-[0_0_20px_rgba(255,107,53,0.4)] hover:bg-[#FF8C5A] transition-colors">
             + ADD TO GO-BAG

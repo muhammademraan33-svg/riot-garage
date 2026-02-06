@@ -68,3 +68,50 @@ body {
 .animate-scroll {
   animation: scroll 3s ease-in-out infinite;
 }
+
+/* Shopify Buy Button Styling - Match dark theme */
+.shopify-collection-container,
+.shopify-product-button {
+  color: #ffffff;
+}
+
+/* Override Shopify default styles for dark theme */
+.shopify-collection-container :global(.shopify-buy-frame),
+.shopify-product-button :global(.shopify-buy-frame) {
+  background-color: transparent !important;
+}
+
+.shopify-collection-container :global(.shopify-buy__product),
+.shopify-product-button :global(.shopify-buy__product) {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+.shopify-collection-container :global(.shopify-buy__product__title),
+.shopify-product-button :global(.shopify-buy__product__title) {
+  color: #ffffff !important;
+}
+
+.shopify-collection-container :global(.shopify-buy__product__price),
+.shopify-product-button :global(.shopify-buy__product__price) {
+  color: #FF6B35 !important;
+}
+
+.shopify-collection-container :global(.shopify-buy__btn),
+.shopify-product-button :global(.shopify-buy__btn) {
+  background-color: #FF6B35 !important;
+  border-color: #FF6B35 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.shopify-collection-container :global(.shopify-buy__btn:hover),
+.shopify-product-button :global(.shopify-buy__btn:hover) {
+  background-color: #FF8C5A !important;
+  border-color: #FF8C5A !important;
+}
